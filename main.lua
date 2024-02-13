@@ -4,7 +4,6 @@ WF = require("libs/windfield/init")
 Object = require("libs/classic/classic")
 Timer = require("libs/hump/timer")
 Input = require("libs/boipushy/Input")
-Camera = require("libs/STALKER-X/Camera")
 Moses = require("libs/moses/moses")
 
 -------------------------------------------
