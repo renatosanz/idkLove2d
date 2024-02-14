@@ -9,10 +9,12 @@ Moses = require("libs/moses/moses")
 -------------------------------------------
 --Load all objects
 require("globals")
-
+--basics objects
 require("Objects/Room")
 require("Objects/Area")
 require("Objects/GameObject")
+
+require("Objects/Tile")
 
 -------------------------------------------
 function love.load()

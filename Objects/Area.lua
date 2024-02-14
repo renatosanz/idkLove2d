@@ -4,7 +4,7 @@ function Area:new(room)
 	self.room = room
 	self.game_objects = {}
 
-	self.bodyWorld = WF.newWorld(0, 0)
+	self.bodyWorld = WF.newWorld(0, 100)
 	self.bodyWorld:addCollisionClass("Ground")
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
@@ -21,6 +21,8 @@ function Area:new(room)
 	self.roof:setType("static")
 	self.wall_left:setType("static")
 	self.wall_right:setType("static")
+
+	self:addGameObject("Tile", 100, 200, { size = 8 })
 
 	self.timer = Timer()
 
@@ -52,13 +54,11 @@ function Area:update(dt)
 end
 
 function Area:draw()
-
 	--self.bodyWorld:draw()
 	for _, game_object in ipairs(self.game_objects) do
 		game_object:draw()
 	end
 	self:draw_mouse()
-
 end
 
 function Area:addGameObject(game_object_type, x, y, opts)
