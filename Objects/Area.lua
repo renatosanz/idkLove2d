@@ -6,29 +6,49 @@ function Area:new(room)
 
 	self.bodyWorld = WF.newWorld(0, 100)
 	self.bodyWorld:addCollisionClass("Ground")
+	self.bodyWorld:addCollisionClass("Tile")
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)
 	self.wall_left = self.bodyWorld:newRectangleCollider(0, 0, 1, Gh)
 	self.wall_right = self.bodyWorld:newRectangleCollider(Gw, 0, 1, Gh)
+	self.middle_wall = self.bodyWorld:newRectangleCollider(Gw / 2 - 10, Gw / 2 + 10, Gh, Gh)
 
 	self.floor:setCollisionClass("Ground")
 	self.roof:setCollisionClass("Ground")
 	self.wall_left:setCollisionClass("Ground")
 	self.wall_right:setCollisionClass("Ground")
+	self.middle_wall:setCollisionClass("Ground")
 
 	self.floor:setType("static")
 	self.roof:setType("static")
 	self.wall_left:setType("static")
 	self.wall_right:setType("static")
+	self.middle_wall:setType("static")
 
-	self:addGameObject("Tile", 100, 200, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
+	self:addGameObject("Tile", 200, 0, { size = 8 })
 
 	self.timer = Timer()
 
 	self.isMouseVisible = false
 	love.mouse.setVisible(self.isMouseVisible)
-	love.graphics.setBackgroundColor(0.37, 0.61, 0.62)
+	love.graphics.setBackgroundColor(BG_color_dark)
 	self.input = Input()
 	self.input:bind("1", "leave_game")
 	Resize(2)
@@ -54,7 +74,7 @@ function Area:update(dt)
 end
 
 function Area:draw()
-	--self.bodyWorld:draw()
+	self.bodyWorld:draw()
 	for _, game_object in ipairs(self.game_objects) do
 		game_object:draw()
 	end
