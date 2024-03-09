@@ -12,46 +12,32 @@ function Area:new(room)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)
 	self.wall_left = self.bodyWorld:newRectangleCollider(0, 0, 1, Gh)
 	self.wall_right = self.bodyWorld:newRectangleCollider(Gw, 0, 1, Gh)
-	self.middle_wall = self.bodyWorld:newRectangleCollider(Gw / 2 - 10, Gw / 2 + 10, Gh, Gh)
 
 	self.floor:setCollisionClass("Ground")
 	self.roof:setCollisionClass("Ground")
 	self.wall_left:setCollisionClass("Ground")
 	self.wall_right:setCollisionClass("Ground")
-	self.middle_wall:setCollisionClass("Ground")
 
 	self.floor:setType("static")
 	self.roof:setType("static")
 	self.wall_left:setType("static")
 	self.wall_right:setType("static")
-	self.middle_wall:setType("static")
 
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
-	self:addGameObject("Tile", 200, 0, { size = 8 })
+	for i = 1, 8, 1 do
+		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_red)
+		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_green)
+		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_orange)
+		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_blue)
+	end
 
 	self.timer = Timer()
 
 	self.isMouseVisible = false
 	love.mouse.setVisible(self.isMouseVisible)
-	love.graphics.setBackgroundColor(BG_color_dark)
+	love.graphics.setBackgroundColor(BG_color_light)
 	self.input = Input()
 	self.input:bind("1", "leave_game")
-	Resize(2)
+	Resize(4)
 end
 
 function Area:update(dt)
@@ -74,11 +60,12 @@ function Area:update(dt)
 end
 
 function Area:draw()
-	self.bodyWorld:draw()
 	for _, game_object in ipairs(self.game_objects) do
 		game_object:draw()
 	end
 	self:draw_mouse()
+
+	--self.bodyWorld:draw()
 end
 
 function Area:addGameObject(game_object_type, x, y, opts)
@@ -90,12 +77,12 @@ end
 
 function Area:draw_mouse()
 	love.graphics.push()
-	love.graphics.setColor(0, 0, 0)
+	love.graphics.setColor(BG_color_dark)
 	local mouse_x, mouse_y = love.mouse.getPosition()
-	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx + 3, mouse_y / Sy + 3 })
-	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx - 3, mouse_y / Sy + 3 })
-	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx + 3, mouse_y / Sy - 3 })
-	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx - 3, mouse_y / Sy - 3 })
+	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx + 2, mouse_y / Sy + 2 })
+	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx - 2, mouse_y / Sy + 2 })
+	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx + 2, mouse_y / Sy - 2 })
+	love.graphics.line({ mouse_x / Sx, mouse_y / Sy, mouse_x / Sx - 2, mouse_y / Sy - 2 })
 	love.graphics.pop()
 end
 

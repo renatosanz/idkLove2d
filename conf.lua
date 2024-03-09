@@ -1,5 +1,5 @@
 Gw = 256
-Gh = 256
+Gh = 128
 Sx = 1
 Sy = 1
 
@@ -7,7 +7,7 @@ function love.conf(t)
 	t.identity = nil -- The name of the save directory (string)
 	t.console = false -- Attach a console (boolean, Windows only)
 
-	t.window.title = "BioPath" -- The window title (string)
+	t.window.title = "idk" -- The window title (string)
 	t.window.icon = nil -- Filepath to an image to use as the window's icon (string)
 	t.window.width = Gw -- The window width (number)
 	t.window.height = Gh -- The window height (number)
