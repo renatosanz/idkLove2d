@@ -3,6 +3,7 @@ Tile = GameObject:extend()
 function Tile:new(area, x, y, opts)
 	self.super:new(area, x, y, opts)
 	--vars
+	self.conf = opts
 	self.size = opts.size
 	self.scale = opts.scale
 	self.input = Input()
@@ -13,11 +14,23 @@ function Tile:new(area, x, y, opts)
 	self.body:setObject(self)
 	self.body:setCollisionClass("Tile")
 	self.body:setRestitution(0.9)
-	self.offsetImg = 1
+	self.joint = false
 end
 
 function Tile:update(dt)
 	self.super:update(dt)
+
+	if self.body:enter("Tile") then
+		local collision_data = self.body:getEnterCollisionData("Tile")
+		local tile = collision_data.collider:getObject()
+		if self.joint == false and tile.dead == false and self.conf.color == tile.conf.color then
+			self.area.bodyWorld:addJoint("RevoluteJoint", self.body, tile.body, self.x, self.y, true)
+			self.joint = true
+		else
+			tile.body:applyLinearImpulse(0, 10)
+		end
+	end
+
 	self:UpdatePosition()
 end
 

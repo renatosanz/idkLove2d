@@ -23,13 +23,6 @@ function Area:new(room)
 	self.wall_left:setType("static")
 	self.wall_right:setType("static")
 
-	for i = 1, 8, 1 do
-		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_red)
-		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_green)
-		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_orange)
-		self:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_blue)
-	end
-
 	self.timer = Timer()
 
 	self.isMouseVisible = false
@@ -65,7 +58,7 @@ function Area:draw()
 	end
 	self:draw_mouse()
 
-	--self.bodyWorld:draw()
+	self.bodyWorld:draw()
 end
 
 function Area:addGameObject(game_object_type, x, y, opts)

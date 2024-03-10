@@ -9,7 +9,12 @@ function Room:new()
 	self.playButton = ButtonManager.new("Play", 113, 20, 30, 20)
 	self.playButton:setFont("fonts/PixelifySans-VariableFont_wght.ttf")
 	self.playButton.onClick = function()
-		print("boton")
+		for i = 1, 10, 1 do
+			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_red)
+			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_green)
+			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_orange)
+			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_blue)
+		end
 	end
 end
 

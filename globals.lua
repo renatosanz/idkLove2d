@@ -14,22 +14,26 @@ Tile_red = {
 	img = "Objects/assets/red_tile.png",
 	offsetX = 1,
 	scale = 2,
+	color = "red",
 }
 Tile_blue = {
 	size = 3,
 	img = "Objects/assets/blue_tile.png",
 	corn = 4,
 	scale = 2,
+	color = "blue",
 }
 Tile_orange = {
 	size = 3,
 	img = "Objects/assets/orange_tile.png",
 	corn = 1,
 	scale = 2,
+	color = "orange",
 }
 Tile_green = {
 	size = 3,
 	img = "Objects/assets/green_tile.png",
 	corn = 2,
 	scale = 2,
+	color = "green",
 }
