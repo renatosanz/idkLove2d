@@ -20,17 +20,6 @@ end
 function Tile:update(dt)
 	self.super:update(dt)
 
-	if self.body:enter("Tile") then
-		local collision_data = self.body:getEnterCollisionData("Tile")
-		local tile = collision_data.collider:getObject()
-		if self.joint == false and tile.dead == false and self.conf.color == tile.conf.color then
-			self.area.bodyWorld:addJoint("RevoluteJoint", self.body, tile.body, self.x, self.y, true)
-			self.joint = true
-		else
-			tile.body:applyLinearImpulse(0, 10)
-		end
-	end
-
 	self:UpdatePosition()
 end
 
@@ -51,4 +40,17 @@ end
 
 function Tile:UpdatePosition()
 	self.x, self.y = self.body:getPosition()
+end
+
+function Tile:getSide()
+	local ang = math.deg(self.body:getAngle()) % 360
+	if ang < 45 and ang > 315 then
+		return 0
+	elseif ang < 135 and ang > 45 then
+		return 90
+	elseif ang < 225 and ang > 135 then
+		return 180
+	elseif ang < 315 and ang > 225 then
+		return 270
+	end
 end

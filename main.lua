@@ -15,6 +15,7 @@ require("Objects/Area")
 require("Objects/GameObject")
 
 require("Objects/Tile")
+require("Objects/Car")
 
 -------------------------------------------
 function love.load()

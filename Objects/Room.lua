@@ -3,7 +3,8 @@ Room = Object:extend()
 function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
-	ButtonManager.default.width = 100
+
+	--[[	ButtonManager.default.width = 100
 	ButtonManager.default.height = 40
 	ButtonManager.default.alignment = "center"
 	self.playButton = ButtonManager.new("Play", 113, 20, 30, 20)
@@ -16,6 +17,9 @@ function Room:new()
 			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_blue)
 		end
 	end
+]]
+	--
+	self.area:addGameObject("Car", 20, 20, Car_small)
 end
 
 function Room:update(dt)

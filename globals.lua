@@ -37,3 +37,12 @@ Tile_green = {
 	scale = 2,
 	color = "green",
 }
+
+--Cars
+Car_small = {
+	h = 10,
+	w = 20,
+	w1_radius = 5,
+	w2_radius = 5,
+	max_vel = 5,
+}
