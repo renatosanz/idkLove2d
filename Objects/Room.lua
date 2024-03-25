@@ -24,13 +24,11 @@ end
 
 function Room:update(dt)
 	self.area:update(dt)
-	ButtonManager.update(dt)
 end
 
 function Room:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-	ButtonManager.draw()
 
 	--draw all my things
 	self.area:draw()

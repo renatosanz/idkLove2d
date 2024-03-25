@@ -5,7 +5,6 @@ Object = require("libs/classic/classic")
 Timer = require("libs/hump/timer")
 Input = require("libs/boipushy/Input")
 Moses = require("libs/moses/moses")
-ButtonManager = require("libs.Simple-Button.simplebutton")
 -------------------------------------------
 --Load all objects
 require("globals")
