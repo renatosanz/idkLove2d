@@ -4,7 +4,7 @@ function Area:new(room)
 	self.room = room
 	self.game_objects = {}
 
-	self.bodyWorld = WF.newWorld(0, 100)
+	self.bodyWorld = WF.newWorld(0, 500)
 	self.bodyWorld:addCollisionClass("Ground")
 	self.bodyWorld:addCollisionClass("Tile")
 	self.bodyWorld:addCollisionClass("WheelCar")
@@ -20,6 +20,11 @@ function Area:new(room)
 	self.wall_left:setCollisionClass("Ground")
 	self.wall_right:setCollisionClass("Ground")
 
+	self.floor:setFriction(1)
+	self.roof:setFriction(1)
+	self.wall_left:setFriction(1)
+	self.wall_right:setFriction(1)
+
 	self.floor:setType("static")
 	self.roof:setType("static")
 	self.wall_left:setType("static")
@@ -32,7 +37,7 @@ function Area:new(room)
 	love.graphics.setBackgroundColor(BG_color_light)
 	self.input = Input()
 	self.input:bind("1", "leave_game")
-	Resize(4)
+	Resize(2)
 end
 
 function Area:update(dt)
@@ -55,12 +60,11 @@ function Area:update(dt)
 end
 
 function Area:draw()
+	self.bodyWorld:draw()
 	for _, game_object in ipairs(self.game_objects) do
 		game_object:draw()
 	end
 	self:draw_mouse()
-
-	self.bodyWorld:draw()
 end
 
 function Area:addGameObject(game_object_type, x, y, opts)

@@ -608,8 +608,20 @@ function World:newBSGRectangleCollider(x, y, w, h, corner_cut_size, settings)
 	return self.wf.Collider.new(self, "BSGRectangle", x, y, w, h, corner_cut_size, settings)
 end
 
-function World:newPolygonCollider(vertices, settings)
-	return self.wf.Collider.new(self, "Polygon", vertices, settings)
+function World:newPolygonCollider(x, y, vertices, settings)
+	local new_vertices = {}
+	for i, v in ipairs(vertices) do
+		if i % 2 == 0 then
+			table.insert(new_vertices, v + y)
+		else
+			if settings == true then
+				table.insert(new_vertices, x - v)
+			else
+				table.insert(new_vertices, x + v)
+			end
+		end
+	end
+	return self.wf.Collider.new(self, "Polygon", new_vertices, {})
 end
 
 function World:newLineCollider(x1, y1, x2, y2, settings)

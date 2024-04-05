@@ -3,23 +3,16 @@ Room = Object:extend()
 function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
+	local p1_ops = Car_small
+	p1_ops.controls = Controls_p1
+	p1_ops.isInvert = false
+	self.area:addGameObject("Car", 30, 20, p1_ops)
 
-	--[[	ButtonManager.default.width = 100
-	ButtonManager.default.height = 40
-	ButtonManager.default.alignment = "center"
-	self.playButton = ButtonManager.new("Play", 113, 20, 30, 20)
-	self.playButton:setFont("fonts/PixelifySans-VariableFont_wght.ttf")
-	self.playButton.onClick = function()
-		for i = 1, 10, 1 do
-			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_red)
-			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_green)
-			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_orange)
-			self.area:addGameObject("Tile", love.math.random(0, Gw), love.math.random(0, Gh), Tile_blue)
-		end
-	end
-]]
-	--
-	self.area:addGameObject("Car", 20, 20, Car_small)
+	local p2_ops = Car_small
+	p2_ops.controls = Controls_p2
+	p2_ops.isInvert = true
+
+	self.area:addGameObject("Car", 200, 20, p2_ops)
 end
 
 function Room:update(dt)
