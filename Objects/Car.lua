@@ -9,13 +9,20 @@ function Car:new(area, x, y, opts)
 	self.isInvert = opts.isInvert
 	--self.img = LoadImage(opts.img)
 
-	self.car = { body = area.bodyWorld:newPolygonCollider(x, y, opts.body_data.bounds, self.isInvert) }
+	self.car = {
+		body = area.bodyWorld:newPolygonCollider(x, y, opts.body_data.bounds, self.isInvert),
+		img = LoadImage(opts.body_data.img),
+		angle = 0,
+		velMax = opts.body_data.max_vel,
+		maxTorque = opts.body_data.max_motor_torque,
+		x1 = 0,
+		y1 = 0,
+		img_offset = opts.body_data.img_offset,
+	}
 	self.car.body:setCollisionClass("BodyCar")
 	self.car.body:setObject(self)
 	self.car.body:setRestitution(0)
 	self.car.body:setFriction(1)
-	self.velMax = opts.body_data.max_vel
-	self.maxTorque = opts.body_data.max_motor_torque
 
 	self.wheels = {}
 	for i, w in ipairs(opts.wheels_data) do
@@ -43,7 +50,7 @@ function Car:new(area, x, y, opts)
 		auxJoint:setMotorEnabled(w.motor_enable)
 		auxJoint:setSpringDampingRatio(w.ratio_damp)
 		auxJoint:setSpringFrequency(w.spring_frec)
-		auxJoint:setMaxMotorTorque(self.maxTorque)
+		auxJoint:setMaxMotorTorque(self.car.maxTorque)
 
 		table.insert(self.wheels, {
 			id = i,
@@ -67,12 +74,12 @@ function Car:update(dt)
 	self.time:update(dt)
 	if self.input:down("go_right") then
 		for _, w in ipairs(self.wheels) do
-			w.wheel_joint:setMotorSpeed(self.velMax)
+			w.wheel_joint:setMotorSpeed(self.car.velMax)
 		end
 		self.isMoving = true
 	elseif self.input:down("go_left") then
 		for _, w in ipairs(self.wheels) do
-			w.wheel_joint:setMotorSpeed(-self.velMax)
+			w.wheel_joint:setMotorSpeed(-self.car.velMax)
 		end
 		self.isMoving = true
 	else
@@ -97,18 +104,34 @@ function Car:update(dt)
 end
 
 function Car:draw()
+	love.graphics.push()
+	love.graphics.translate(self.x, self.y)
+	love.graphics.rotate(self.car.angle)
+	love.graphics.scale(2, 2)
+	love.graphics.draw(
+		self.car.img,
+		self:invX(-1) * (self.car.img:getWidth() + self.car.img_offset.x) / 2,
+		-(self.car.img:getHeight() + self.car.img_offset.y) / 2,
+		0,
+		self:invX(1),
+		1
+	)
+	love.graphics.pop()
+
 	for _, w in ipairs(self.wheels) do
 		love.graphics.push()
 		love.graphics.translate(w.x, w.y)
 		love.graphics.rotate(w.angle)
-		love.graphics.scale(2, 2)
+		love.graphics.scale(2.3, 2.3)
 		love.graphics.draw(w.img, -w.img:getWidth() / 2, -w.img:getHeight() / 2, 0, 1, 1)
 		love.graphics.pop()
 	end
 end
 
 function Car:UpdatePosition()
-	self.x, self.y = self.car.body:getPosition()
+	self.x, self.y = self.car.body:getWorldCenter()
+	self.car.angle = self.car.body:getAngle()
+	print(self.angle)
 
 	for _, w in ipairs(self.wheels) do
 		w.angle = w.wheel_body:getAngle()
