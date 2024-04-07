@@ -2,6 +2,11 @@ Car = GameObject:extend()
 
 function Car:new(area, x, y, opts)
 	self.super:new(area, x, y, opts)
+
+	self.classWheels = "WheelCar" .. opts.controls.name
+	self.classBody = "BodyCar" .. opts.controls.name
+	self.area.bodyWorld:addCollisionClass(self.classBody)
+	self.area.bodyWorld:addCollisionClass(self.classWheels, { ignores = { self.classBody } })
 	--vars
 
 	self.input = Input()
@@ -18,8 +23,9 @@ function Car:new(area, x, y, opts)
 		x1 = 0,
 		y1 = 0,
 		img_offset = opts.body_data.img_offset,
+		img_scale = opts.body_data.scale,
 	}
-	self.car.body:setCollisionClass("BodyCar")
+	self.car.body:setCollisionClass(self.classBody)
 	self.car.body:setObject(self)
 	self.car.body:setRestitution(0)
 	self.car.body:setFriction(1)
@@ -31,10 +37,10 @@ function Car:new(area, x, y, opts)
 			y + w.position_joint_offset.y,
 			w.radius
 		)
-		auxWheel:setCollisionClass("WheelCar")
+		auxWheel:setCollisionClass(self.classWheels)
 		auxWheel:setObject(self)
-		auxWheel:setRestitution(0)
-		auxWheel:setFriction(1)
+		auxWheel:setRestitution(w.restitution)
+		auxWheel:setFriction(w.friction)
 		auxWheel:setInertia(1)
 
 		local auxJoint = area.bodyWorld:addJoint(
@@ -58,6 +64,7 @@ function Car:new(area, x, y, opts)
 			x = 0,
 			y = 0,
 			img = LoadImage(w.img),
+			scale = w.scale,
 			wheel_body = auxWheel,
 			wheel_joint = auxJoint,
 		})
@@ -107,7 +114,7 @@ function Car:draw()
 	love.graphics.push()
 	love.graphics.translate(self.x, self.y)
 	love.graphics.rotate(self.car.angle)
-	love.graphics.scale(2, 2)
+	love.graphics.scale(self.car.img_scale.x, self.car.img_scale.y)
 	love.graphics.draw(
 		self.car.img,
 		self:invX(-1) * (self.car.img:getWidth() + self.car.img_offset.x) / 2,
@@ -122,7 +129,7 @@ function Car:draw()
 		love.graphics.push()
 		love.graphics.translate(w.x, w.y)
 		love.graphics.rotate(w.angle)
-		love.graphics.scale(2.3, 2.3)
+		love.graphics.scale(w.scale.x, w.scale.y)
 		love.graphics.draw(w.img, -w.img:getWidth() / 2, -w.img:getHeight() / 2, 0, 1, 1)
 		love.graphics.pop()
 	end

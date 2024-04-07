@@ -44,30 +44,73 @@ Car_small = {
 		bounds = { 0, 0, 0, 20, 40, 20 },
 		max_vel = 10000,
 		max_motor_torque = 10000,
-		img = "Objects/assets/cars/s1/body.png",
+		img = "Objects/assets/body_cars/s1/body.png",
 		img_offset = { x = -3, y = 4 },
+		scale = { x = 2, y = 2 },
 	},
 	wheels_data = {
 		{
-			img = "Objects/assets/cars/s1/w1.png",
+			img = "Objects/assets/wheels/s1/w1.png",
 			radius = 14,
 			position_joint_offset = { x = 0, y = 20 },
 			ratio_damp = 0.7,
 			spring_frec = 5,
 			motor_enable = true,
+			restitution = 0.4,
+			friction = 1,
+			scale = { x = 2, y = 2 },
 		},
 		{
-			img = "Objects/assets/cars/s1/w2.png",
+			img = "Objects/assets/wheels/s1/w2.png",
 			radius = 8,
 			position_joint_offset = { x = 40, y = 20 },
 			ratio_damp = 0.7,
 			spring_frec = 5,
-			motor_enable = false,
+			motor_enable = true,
+			restitution = 0.4,
+			friction = 1,
+			scale = { x = 2, y = 2 },
+		},
+	},
+}
+
+MonsterTruck = {
+	body_data = {
+		bounds = { 0, 14, 28, 2, 42, 2, 80, 14, 80, 32, 0, 32 },
+		max_vel = 10000,
+		max_motor_torque = 20000,
+		img = "Objects/assets/body_cars/monster_truck/body.png",
+		img_offset = { x = 0, y = 0 },
+		scale = { x = 2, y = 2 },
+	},
+	wheels_data = {
+		{
+			img = "Objects/assets/wheels/monster_truck/w.png",
+			radius = 20,
+			position_joint_offset = { x = 12, y = 40 },
+			ratio_damp = 0.1,
+			spring_frec = 3,
+			friction = 0.5,
+			motor_enable = true,
+			restitution = 0.5,
+			scale = { x = 2, y = 2 },
+		},
+		{
+			img = "Objects/assets/wheels/monster_truck/w.png",
+			radius = 20,
+			position_joint_offset = { x = 66, y = 40 },
+			ratio_damp = 0.3,
+			spring_frec = 3,
+			friction = 0.5,
+			motor_enable = true,
+			restitution = 0.5,
+			scale = { x = 2, y = 2 },
 		},
 	},
 }
 
 Controls_p1 = {
+	name = "p1",
 	left = "a",
 	right = "d",
 	up = "w",
@@ -75,6 +118,7 @@ Controls_p1 = {
 }
 
 Controls_p2 = {
+	name = "p2",
 	left = "left",
 	right = "right",
 	up = "up",

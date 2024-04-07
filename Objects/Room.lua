@@ -3,15 +3,15 @@ Room = Object:extend()
 function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
-	local p1_ops = Car_small
+
+	local p1_ops = MonsterTruck
 	p1_ops.controls = Controls_p1
 	p1_ops.isInvert = false
 	self.area:addGameObject("Car", 30, 20, p1_ops)
 
-	local p2_ops = Car_small
+	local p2_ops = MonsterTruck
 	p2_ops.controls = Controls_p2
 	p2_ops.isInvert = true
-
 	self.area:addGameObject("Car", 200, 20, p2_ops)
 end
 
