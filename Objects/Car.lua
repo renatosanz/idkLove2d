@@ -138,7 +138,6 @@ end
 function Car:UpdatePosition()
 	self.x, self.y = self.car.body:getWorldCenter()
 	self.car.angle = self.car.body:getAngle()
-	print(self.angle)
 
 	for _, w in ipairs(self.wheels) do
 		w.angle = w.wheel_body:getAngle()
