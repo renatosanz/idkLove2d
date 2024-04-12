@@ -4,7 +4,7 @@ function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
 
-	local p1_ops = MonsterTruck
+	local p1_ops = Shark
 	p1_ops.controls = Controls_p1
 	p1_ops.isInvert = false
 	self.area:addGameObject("Car", 30, 20, p1_ops)
