@@ -16,10 +16,26 @@ require("Objects/GameObject")
 require("Objects/Tile")
 require("Objects/Car")
 
+--load all model cars
+
+local folderPath = "./Cars/"
+
+for file in io.popen('ls "' .. folderPath .. '"'):lines() do
+	-- Verifica si el archivo es un archivo Lua (.lua)
+	if file:match("%.lua$") then
+		-- Requiere el archivo
+		require(folderPath .. "." .. file:gsub("%.lua$", ""))
+	end
+end
+
 -------------------------------------------
 function love.load()
 	love.math.setRandomSeed(os.time())
 	love.graphics.setDefaultFilter("nearest", "nearest")
+
+	local filename = "Assets/icon.png"
+	local imageData = love.image.newImageData(filename)
+	love.window.setIcon(imageData)
 
 	MyFont = love.graphics.newFont("fonts/PixelifySans-VariableFont_wght.ttf", 12)
 	MyFont:setFilter("nearest", "nearest")

@@ -4,7 +4,7 @@ function Area:new(room)
 	self.room = room
 	self.game_objects = {}
 
-	self.bodyWorld = WF.newWorld(0, 500)
+	self.bodyWorld = WF.newWorld(0, 980)
 	self.bodyWorld:addCollisionClass("Ground")
 	self.bodyWorld:addCollisionClass("Tile")
 

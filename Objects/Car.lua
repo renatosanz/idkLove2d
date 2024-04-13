@@ -41,7 +41,7 @@ function Car:new(area, x, y, opts)
 		auxWheel:setObject(self)
 		auxWheel:setRestitution(w.restitution)
 		auxWheel:setFriction(w.friction)
-		auxWheel:setInertia(1)
+		auxWheel:setInertia(0)
 
 		local auxJoint = area.bodyWorld:addJoint(
 			"WheelJoint",
