@@ -1,6 +1,9 @@
 BG_color_light = { 203 / 255, 219 / 255, 252 / 255 }
 BG_color_dark = { 0 / 255, 0 / 255, 0 / 255 }
 
+QuartCircle = math.pi / 2
+FullCircle = 2 * math.pi
+
 function LoadImage(path)
 	local info = love.filesystem.getInfo(path)
 	if info then

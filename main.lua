@@ -2,12 +2,27 @@
 --Libreries
 WF = require("libs/windfield/init")
 Object = require("libs/classic/classic")
-Timer = require("libs/hump/timer")
+Timer = require("libs.hump.timer")
 Input = require("libs/boipushy/Input")
 Moses = require("libs/moses/moses")
 -------------------------------------------
+
+function ChargeFolder(path)
+	for file in io.popen('ls "' .. path .. '"'):lines() do
+		-- Verifica si el archivo es un archivo Lua (.lua)
+		if file:match("%.lua$") then
+			-- Requiere el archivo
+			require(path .. "." .. file:gsub("%.lua$", ""))
+		end
+	end
+end
+
 --Load all objects
 require("globals")
+--load all model cars and maps
+ChargeFolder("./Cars/")
+ChargeFolder("./Maps/")
+
 --basics objects
 require("Objects/Room")
 require("Objects/Area")
@@ -15,18 +30,6 @@ require("Objects/GameObject")
 
 require("Objects/Tile")
 require("Objects/Car")
-
---load all model cars
-
-local folderPath = "./Cars/"
-
-for file in io.popen('ls "' .. folderPath .. '"'):lines() do
-	-- Verifica si el archivo es un archivo Lua (.lua)
-	if file:match("%.lua$") then
-		-- Requiere el archivo
-		require(folderPath .. "." .. file:gsub("%.lua$", ""))
-	end
-end
 
 -------------------------------------------
 function love.load()

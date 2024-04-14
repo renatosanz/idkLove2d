@@ -4,15 +4,18 @@ function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
 
-	local p1_ops = MonsterTruck
-	p1_ops.controls = Controls_p1
-	p1_ops.isInvert = false
-	self.area:addGameObject("Car", 30, 20, p1_ops)
+	self.current_map = Donut_map
+	self.area:ChargeMap(self.current_map)
 
-	local p2_ops = Shark
-	p2_ops.controls = Controls_p2
-	p2_ops.isInvert = true
-	self.area:addGameObject("Car", 200, 20, p2_ops)
+	self.p1_ops = MonsterTruck
+	self.p1_ops.controls = Controls_p1
+	self.p1_ops.isInvert = false
+	self.area:addGameObject("Car", self.current_map.p1_coors.x, self.current_map.p1_coors.y, self.p1_ops)
+
+	self.p2_ops = Shark
+	self.p2_ops.controls = Controls_p2
+	self.p2_ops.isInvert = true
+	self.area:addGameObject("Car", self.current_map.p2_coors.x, self.current_map.p2_coors.y, self.p2_ops)
 end
 
 function Room:update(dt)

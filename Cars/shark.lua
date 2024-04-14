@@ -1,8 +1,8 @@
 Shark = {
 	body_data = {
 		bounds = { 0, 6, 28, 2, 59, 16, 40, 26, 30, 26, 2, 22 },
-		max_vel = 100,
-		max_motor_torque = 20000,
+		max_vel = 20000,
+		max_motor_torque = 30000,
 		img = "Assets/shark/body.png",
 		img_offset = { x = -2, y = 0 },
 		scale = { x = 2, y = 2 },
@@ -15,7 +15,7 @@ Shark = {
 			ratio_damp = 0.7,
 			spring_frec = 5,
 			motor_enable = true,
-			restitution = 0.4,
+			restitution = 0,
 			friction = 1,
 			scale = { x = 2, y = 2 },
 		},
@@ -26,7 +26,7 @@ Shark = {
 			ratio_damp = 0.7,
 			spring_frec = 5,
 			motor_enable = false,
-			restitution = 0.4,
+			restitution = 0,
 			friction = 1,
 			scale = { x = 2, y = 2 },
 		},

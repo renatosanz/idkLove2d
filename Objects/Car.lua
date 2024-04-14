@@ -42,6 +42,7 @@ function Car:new(area, x, y, opts)
 		auxWheel:setRestitution(w.restitution)
 		auxWheel:setFriction(w.friction)
 		auxWheel:setInertia(0)
+		auxWheel:setGravityScale(2)
 
 		local auxJoint = area.bodyWorld:addJoint(
 			"WheelJoint",
@@ -73,7 +74,16 @@ function Car:new(area, x, y, opts)
 	self.input:bind(opts.controls.right, "go_right")
 	self.input:bind(opts.controls.left, "go_left")
 	self.input:bind(opts.controls.down, "stop")
+	self.input:bind(opts.controls.up, "jump")
+
+	--states
 	self.isMoving = false
+	self.isJumpEnable = true
+	self.stats = {
+		jump = {
+			circleJump = 1,
+		},
+	}
 end
 
 function Car:update(dt)
@@ -96,6 +106,15 @@ function Car:update(dt)
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(0)
 		end
+	end
+
+	if self.input:pressed("jump") and self.isJumpEnable then
+		self.car.body:applyLinearImpulse(0, -1000)
+		self.isJumpEnable = false
+		self.stats.jump.circleJump = 0
+		self.time:tween(1, self.stats.jump, { circleJump = 1 }, "in-out-cubic", function()
+			self.isJumpEnable = true
+		end)
 	end
 
 	if self.isMoving then
@@ -133,6 +152,7 @@ function Car:draw()
 		love.graphics.draw(w.img, -w.img:getWidth() / 2, -w.img:getHeight() / 2, 0, 1, 1)
 		love.graphics.pop()
 	end
+	self:DrawStats()
 end
 
 function Car:UpdatePosition()
@@ -143,6 +163,13 @@ function Car:UpdatePosition()
 		w.angle = w.wheel_body:getAngle()
 		w.x, w.y = w.wheel_body:getPosition()
 	end
+end
+
+function Car:DrawStats()
+	love.graphics.push()
+	love.graphics.translate(self.x, self.y)
+	love.graphics.arc("fill", "pie", -self:invX(1) * 20, -30, 10, 0, self.stats.jump.circleJump * FullCircle)
+	love.graphics.pop()
 end
 
 function Car:invX(x)

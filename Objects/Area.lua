@@ -4,9 +4,8 @@ function Area:new(room)
 	self.room = room
 	self.game_objects = {}
 
-	self.bodyWorld = WF.newWorld(0, 980)
+	self.bodyWorld = WF.newWorld(0, 1000)
 	self.bodyWorld:addCollisionClass("Ground")
-	self.bodyWorld:addCollisionClass("Tile")
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)
@@ -100,4 +99,32 @@ function Area:getNearestItem(x, y, radius)
 		end
 	end
 	return nearItem
+end
+
+function Area:ChargeMap(map)
+	print(map.name)
+
+	for _, c in ipairs(map.circles) do
+		local temp = self.bodyWorld:newCircleCollider(c.x, c.y, c.radius)
+		temp:setCollisionClass(c.class or "Ground")
+		temp:setFriction(1)
+		temp:setType(c.type)
+	end
+
+	for _, r in ipairs(map.rects) do
+		local temp = self.bodyWorld:newRectangleCollider(r.x, r.y, r.h, r.w)
+		temp:setCollisionClass(r.class or "Ground")
+		temp:setFriction(1)
+		temp:setType(r.type)
+	end
+
+	for _, obj in ipairs(map.polygons) do
+		local triangles = love.math.triangulate(obj.vertices)
+		for _, v in ipairs(triangles) do
+			local temp = self.bodyWorld:newPolygonCollider(obj.x, obj.y, v, false)
+			temp:setCollisionClass(obj.class or "Ground")
+			temp:setFriction(1)
+			temp:setType(obj.type)
+		end
+	end
 end
