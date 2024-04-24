@@ -98,3 +98,13 @@ Colors = {
 	green7 = { 66 / 255, 123 / 255, 88 / 255, 1 },
 	orange5 = { 175 / 255, 58 / 255, 3 / 255, 1 },
 }
+
+function CirclePoints(n, r)
+	local ang = 360 / n
+	local p = {}
+	for i = 1, n, 1 do
+		table.insert(p, math.cos(n * ang) * r)
+		table.insert(p, math.sin(n * ang) * r)
+	end
+	return p
+end

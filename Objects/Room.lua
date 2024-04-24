@@ -4,7 +4,7 @@ function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
 
-	self.current_map = Donut_map
+	self.current_map = Waves
 	self.area:ChargeMap(self.current_map)
 
 	self.p1_ops = MonsterTruck
