@@ -1,11 +1,12 @@
 Waves = {
 	name = "Waves",
+	bg_img = "Assets/maps/waves/bg_img.png",
 	p1_coors = { x = 150, y = 30 },
 	p2_coors = { x = Gw - 150, y = 30 },
 	circles = {},
 	polygons = {
 		{
-			vertices = {52, 0, 0, -40, 26, -30, 52, -25, 78, -30, 104, -40 },
+			vertices = { 52, 0, 0, -40, 26, -30, 52, -25, 78, -30, 104, -40 },
 			x = 104 * 0,
 			y = Gh,
 			type = "static",

@@ -4,8 +4,10 @@ function Area:new(room)
 	self.room = room
 	self.game_objects = {}
 
-	self.bodyWorld = WF.newWorld(0, 1000)
+	self.bodyWorld = WF.newWorld(0, 10)
 	self.bodyWorld:addCollisionClass("Ground")
+	self.bodyWorld:addCollisionClass("Item")
+	self.bodyWorld:addCollisionClass("Particle")
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)
@@ -28,6 +30,9 @@ function Area:new(room)
 	self.wall_right:setType("static")
 
 	self.timer = Timer()
+	self.timer:after(0.5, function()
+		self.bodyWorld:setGravity(0, 1000)
+	end)
 
 	self.isMouseVisible = false
 	love.mouse.setVisible(self.isMouseVisible)
@@ -57,7 +62,10 @@ function Area:update(dt)
 end
 
 function Area:draw()
-	self.bodyWorld:draw()
+	if self.background then
+		love.graphics.draw(self.background, 0, 0)
+	end
+	--self.bodyWorld:draw()
 	for _, game_object in ipairs(self.game_objects) do
 		game_object:draw()
 	end
@@ -103,6 +111,9 @@ end
 
 function Area:ChargeMap(map)
 	print(map.name)
+	if map.bg_img then
+		self.background = love.graphics.newImage(map.bg_img)
+	end
 
 	for _, c in ipairs(map.circles) do
 		local temp = self.bodyWorld:newCircleCollider(c.x, c.y, c.radius)
@@ -124,7 +135,7 @@ function Area:ChargeMap(map)
 			local temp = self.bodyWorld:newPolygonCollider(obj.x, obj.y, v, false)
 			temp:setCollisionClass(obj.class or "Ground")
 			temp:setFriction(1)
-			temp:setType(obj.type)
+			temp:setType(obj.type or "static")
 		end
 	end
 end

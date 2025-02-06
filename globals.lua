@@ -108,3 +108,10 @@ function CirclePoints(n, r)
 	end
 	return p
 end
+
+function CopyContact(contact)
+	local ret = { normal = {}, points = {} }
+	ret.normal.x, ret.normal.y = contact:getNormal()
+	ret.points.x, ret.points.y = contact:getPositions()
+	return ret
+end

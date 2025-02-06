@@ -4,10 +4,10 @@ function Room:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(Gw, Gh)
 
-	self.current_map = Waves
+	self.current_map = Donut_map
 	self.area:ChargeMap(self.current_map)
 
-	self.p1_ops = MonsterTruck
+	self.p1_ops = FishCar
 	self.p1_ops.controls = Controls_p1
 	self.p1_ops.isInvert = false
 	self.area:addGameObject("Car", self.current_map.p1_coors.x, self.current_map.p1_coors.y, self.p1_ops)

@@ -22,11 +22,14 @@ require("globals")
 --load all model cars and maps
 ChargeFolder("./Cars/")
 ChargeFolder("./Maps/")
+ChargeFolder("./Items/")
 
 --basics objects
 require("Objects/Room")
 require("Objects/Area")
 require("Objects/GameObject")
+require("Objects/Item")
+require("Objects/Particle")
 
 require("Objects/Tile")
 require("Objects/Car")

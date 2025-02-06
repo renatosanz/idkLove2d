@@ -92,11 +92,13 @@ function Car:update(dt)
 	if self.input:down("go_right") then
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(self.car.velMax)
+			self:generateParticles(w.wheel_body, "Ground", Colors.cream1)
 		end
 		self.isMoving = true
 	elseif self.input:down("go_left") then
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(-self.car.velMax)
+			self:generateParticles(w.wheel_body, "Ground", Colors.cream1)
 		end
 		self.isMoving = true
 	else
@@ -177,5 +179,20 @@ function Car:invX(x)
 		return -x
 	else
 		return x
+	end
+end
+
+function Car:generateParticles(collider, class, color)
+	if collider:enter(class) then
+		local contact = CopyContact(collider:getEnterCollisionData(class).contact)
+		print(
+			"contact: ",
+			"nx: " .. contact.normal.x,
+			"ny: " .. contact.normal.y,
+			"x: " .. contact.points.x,
+			"y: " .. contact.points.y
+		)
+
+		self.area:addGameObject("Particle", contact.points.x, contact.points.y)
 	end
 end

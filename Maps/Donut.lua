@@ -1,5 +1,6 @@
 Donut_map = {
 	name = "Donut",
+	bg_img = "Assets/maps/donut/bg_img.png",
 	p1_coors = { x = 150, y = 30 },
 	p2_coors = { x = Gw - 150, y = 30 },
 	circles = {
