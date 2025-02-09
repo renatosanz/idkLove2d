@@ -6,6 +6,7 @@ MonsterTruck = {
 		img = "Assets/monster_truck/body.png",
 		img_offset = { x = 0, y = 3 },
 		scale = { x = 2, y = 2 },
+		exhaust = { x = 6, y = 16 },
 	},
 	wheels_data = {
 		{

@@ -9,7 +9,10 @@ function Particle:new(area, x, y, opts)
 	self.body:setCollisionClass("Particle")
 	self.body:setRestitution(0.3)
 	self.body:setFriction(0.1)
-	self.body:applyLinearImpulse(0, -4)
+	--self.body:applyLinearImpulse(0, -4)
+	if opts.gravity then
+		self.body:setGravityScale(opts.gravity.x, opts.gravity.y)
+	end
 
 	self.timer = Timer()
 	self.timer:tween(0.5, self, { size = 0 }, "linear", function()

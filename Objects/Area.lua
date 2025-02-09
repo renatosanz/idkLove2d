@@ -6,8 +6,15 @@ function Area:new(room)
 
 	self.bodyWorld = WF.newWorld(0, 10)
 	self.bodyWorld:addCollisionClass("Ground")
-	self.bodyWorld:addCollisionClass("Item")
-	self.bodyWorld:addCollisionClass("Particle")
+
+	self.classWheels = "WheelCar"
+	self.classBody = "BodyCar"
+	self.bodyWorld:addCollisionClass(self.classBody)
+	self.bodyWorld:addCollisionClass(self.classWheels, { ignores = { self.classWheels } })
+
+	self.bodyWorld:addCollisionClass("Particle", { ignores = { self.classWheels, self.classBody } })
+
+	self.bodyWorld:addCollisionClass("Item", { ignores = { self.classWheels, self.classBody, "Particle" } })
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)

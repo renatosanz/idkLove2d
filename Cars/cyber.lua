@@ -1,0 +1,35 @@
+Cyber = {
+	body_data = {
+		bounds = { 0, 6, 36, 0, 42, 0, 64, 12, 64, 24, 8, 24 },
+		max_vel = 10000,
+		max_motor_torque = 15000,
+		img = "Assets/cyber/body.png",
+		img_offset = { x = 0, y = 0 },
+		scale = { x = 2, y = 2 },
+		exhaust = { x = 6, y = 16 },
+	},
+	wheels_data = {
+		{
+			img = "Assets/cyber/w.png",
+			radius = 10,
+			position_joint_offset = { x = 10, y = 25 },
+			ratio_damp = 1,
+			spring_frec = 6,
+			friction = 1,
+			motor_enable = true,
+			restitution = 0,
+			scale = { x = 2, y = 2 },
+		},
+		{
+			img = "Assets/cyber/w.png",
+			radius = 10,
+			position_joint_offset = { x = 55, y = 25 },
+			ratio_damp = 1,
+			spring_frec = 6,
+			friction = 1,
+			motor_enable = true,
+			restitution = 0,
+			scale = { x = 2, y = 2 },
+		},
+	},
+}

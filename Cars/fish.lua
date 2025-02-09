@@ -1,11 +1,12 @@
 FishCar = {
 	body_data = {
-		bounds = { 0, 0, 42, 0, 58, 8, 58, 22, 48, 30, 24, 30, 0, 30 },
+		bounds = { 14, 8, 42, 0, 58, 8, 58, 22, 48, 30, 24, 30, 14, 22 },
 		max_vel = 100,
 		max_motor_torque = 10000,
 		img = "Assets/fish/body.png",
-		img_offset = { x = 0, y = 0 },
+		img_offset = { x = 5, y = 0 },
 		scale = { x = 2, y = 2 },
+		exhaust = { x = 6, y = 16 },
 	},
 	wheels_data = {
 		{
@@ -13,7 +14,7 @@ FishCar = {
 			radius = 7,
 			position_joint_offset = { x = 10, y = 35 },
 			ratio_damp = 1,
-			spring_frec = 5,
+			spring_frec = 4,
 			friction = 1,
 			motor_enable = true,
 			restitution = 0,
@@ -22,9 +23,9 @@ FishCar = {
 		{
 			img = "Assets/fish/w.png",
 			radius = 7,
-			position_joint_offset = { x = 29, y = 35 },
+			position_joint_offset = { x = 30, y = 35 },
 			ratio_damp = 1,
-			spring_frec = 5,
+			spring_frec = 4,
 			friction = 1,
 			motor_enable = true,
 			restitution = 0,
@@ -33,9 +34,9 @@ FishCar = {
 		{
 			img = "Assets/fish/w.png",
 			radius = 7,
-			position_joint_offset = { x = 48, y = 35 },
+			position_joint_offset = { x = 50, y = 35 },
 			ratio_damp = 1,
-			spring_frec = 5,
+			spring_frec = 4,
 			friction = 1,
 			motor_enable = true,
 			restitution = 0,

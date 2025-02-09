@@ -2,15 +2,12 @@ Car = GameObject:extend()
 
 function Car:new(area, x, y, opts)
 	self.super:new(area, x, y, opts)
-
-	self.classWheels = "WheelCar" .. opts.controls.name
-	self.classBody = "BodyCar" .. opts.controls.name
-	self.area.bodyWorld:addCollisionClass(self.classBody)
-	self.area.bodyWorld:addCollisionClass(self.classWheels, { ignores = { self.classBody } })
+	self.classWheels = "WheelCar"
+	self.classBody = "BodyCar"
 	--vars
 
 	self.input = Input()
-	self.time = Timer()
+	self.timer = Timer()
 	self.isInvert = opts.isInvert
 	--self.img = LoadImage(opts.img)
 
@@ -25,9 +22,11 @@ function Car:new(area, x, y, opts)
 		img_offset = opts.body_data.img_offset,
 		img_scale = opts.body_data.scale,
 	}
+
 	self.car.body:setCollisionClass(self.classBody)
 	self.car.body:setObject(self)
 	self.car.body:setRestitution(0)
+	self.car.body:setLinearDamping(0)
 	self.car.body:setFriction(1)
 
 	self.wheels = {}
@@ -43,6 +42,9 @@ function Car:new(area, x, y, opts)
 		auxWheel:setFriction(w.friction)
 		auxWheel:setInertia(0)
 		auxWheel:setGravityScale(2)
+		auxWheel:setPreSolve(function(collider_1, collider_2, contact)
+			contact:setEnabled(true)
+		end)
 
 		local auxJoint = area.bodyWorld:addJoint(
 			"WheelJoint",
@@ -71,6 +73,23 @@ function Car:new(area, x, y, opts)
 		})
 	end
 
+	-- exhaust body and joint
+	self.exhaust_body =
+		area.bodyWorld:newCircleCollider(x + self:invX(opts.body_data.exhaust.x), y + opts.body_data.exhaust.y, 3)
+	self.exhaust_body:setCollisionClass("Item")
+	self.exhaust_joint = area.bodyWorld:addJoint(
+		"WheelJoint",
+		self.car.body,
+		self.exhaust_body,
+		x + self:invX(opts.body_data.exhaust.x),
+		y + opts.body_data.exhaust.y,
+		1,
+		1,
+		false
+	)
+
+	--controls
+
 	self.input:bind(opts.controls.right, "go_right")
 	self.input:bind(opts.controls.left, "go_left")
 	self.input:bind(opts.controls.down, "stop")
@@ -84,27 +103,34 @@ function Car:new(area, x, y, opts)
 			circleJump = 1,
 		},
 	}
+
+	self.timer:every(0.1, function()
+		local x, y = self.exhaust_body:getPosition()
+		local max_particles = 3
+		if self.isMoving then
+			max_particles = 10
+		end
+		for i = 1, love.math.random(2, max_particles), 1 do
+			print(self.velocity)
+			self.area:addGameObject("Particle", x, y, { size = love.math.random(2, 5), gravity = { x = -0.5, y = 0 } })
+		end
+	end)
 end
 
 function Car:update(dt)
 	self.super:update(dt)
-	self.time:update(dt)
+	self.timer:update(dt)
 	if self.input:down("go_right") then
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(self.car.velMax)
-			self:generateParticles(w.wheel_body, "Ground", Colors.cream1)
 		end
 		self.isMoving = true
 	elseif self.input:down("go_left") then
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(-self.car.velMax)
-			self:generateParticles(w.wheel_body, "Ground", Colors.cream1)
 		end
 		self.isMoving = true
 	else
-		if self.input:down("stop") then
-			self.isMoving = false
-		end
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(0)
 		end
@@ -114,9 +140,13 @@ function Car:update(dt)
 		self.car.body:applyLinearImpulse(0, -1000)
 		self.isJumpEnable = false
 		self.stats.jump.circleJump = 0
-		self.time:tween(1, self.stats.jump, { circleJump = 1 }, "in-out-cubic", function()
+		self.timer:tween(1, self.stats.jump, { circleJump = 1 }, "in-out-cubic", function()
 			self.isJumpEnable = true
 		end)
+	end
+
+	if self.input:down("stop") then
+		self.car.body:applyLinearImpulse(0, 250)
 	end
 
 	if self.isMoving then
@@ -129,6 +159,7 @@ function Car:update(dt)
 		end
 	end
 	self:UpdatePosition()
+	self:UpdateVelocity()
 end
 
 function Car:draw()
@@ -167,6 +198,10 @@ function Car:UpdatePosition()
 	end
 end
 
+function Car:UpdateVelocity()
+	self.velocity = self.car.body:getLinearVelocity()
+end
+
 function Car:DrawStats()
 	love.graphics.push()
 	love.graphics.translate(self.x, self.y)
@@ -179,20 +214,5 @@ function Car:invX(x)
 		return -x
 	else
 		return x
-	end
-end
-
-function Car:generateParticles(collider, class, color)
-	if collider:enter(class) then
-		local contact = CopyContact(collider:getEnterCollisionData(class).contact)
-		print(
-			"contact: ",
-			"nx: " .. contact.normal.x,
-			"ny: " .. contact.normal.y,
-			"x: " .. contact.points.x,
-			"y: " .. contact.points.y
-		)
-
-		self.area:addGameObject("Particle", contact.points.x, contact.points.y)
 	end
 end
