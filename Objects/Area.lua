@@ -12,9 +12,8 @@ function Area:new(room)
 	self.bodyWorld:addCollisionClass(self.classBody)
 	self.bodyWorld:addCollisionClass(self.classWheels, { ignores = { self.classWheels } })
 
-	self.bodyWorld:addCollisionClass("Particle", { ignores = { self.classWheels, self.classBody } })
-
-	self.bodyWorld:addCollisionClass("Item", { ignores = { self.classWheels, self.classBody, "Particle" } })
+	self.bodyWorld:addCollisionClass("Particle", { ignores = { self.classWheels, self.classBody, "Ground" } })
+	self.bodyWorld:addCollisionClass("Item", { ignores = { "Particle" } })
 
 	self.floor = self.bodyWorld:newRectangleCollider(0, Gh, Gw, 1)
 	self.roof = self.bodyWorld:newRectangleCollider(0, 0, Gw, 1)

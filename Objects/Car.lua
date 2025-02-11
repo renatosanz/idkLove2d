@@ -76,6 +76,7 @@ function Car:new(area, x, y, opts)
 	-- exhaust body and joint
 	self.exhaust_body =
 		area.bodyWorld:newCircleCollider(x + self:invX(opts.body_data.exhaust.x), y + opts.body_data.exhaust.y, 3)
+
 	self.exhaust_body:setCollisionClass("Item")
 	self.exhaust_joint = area.bodyWorld:addJoint(
 		"WheelJoint",
@@ -87,6 +88,9 @@ function Car:new(area, x, y, opts)
 		1,
 		false
 	)
+	self.exhaust_joint:setMotorEnabled(false)
+	self.exhaust_joint:setSpringDampingRatio(1)
+	self.exhaust_joint:setSpringFrequency(10)
 
 	--controls
 
@@ -97,6 +101,7 @@ function Car:new(area, x, y, opts)
 
 	--states
 	self.isMoving = false
+	self.smoke = false
 	self.isJumpEnable = true
 	self.stats = {
 		jump = {
@@ -106,12 +111,14 @@ function Car:new(area, x, y, opts)
 
 	self.timer:every(0.1, function()
 		local x, y = self.exhaust_body:getPosition()
-		local max_particles = 3
-		if self.isMoving then
-			max_particles = 10
+
+		local max_particles = 0
+		if self.smoke then
+			max_particles = 5
+		else
+			max_particles = 2
 		end
 		for i = 1, love.math.random(2, max_particles), 1 do
-			print(self.velocity)
 			self.area:addGameObject("Particle", x, y, { size = love.math.random(2, 5), gravity = { x = -0.5, y = 0 } })
 		end
 	end)
@@ -125,12 +132,15 @@ function Car:update(dt)
 			w.wheel_joint:setMotorSpeed(self.car.velMax)
 		end
 		self.isMoving = true
+		self.smoke = true
 	elseif self.input:down("go_left") then
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(-self.car.velMax)
 		end
 		self.isMoving = true
+		self.smoke = true
 	else
+		self.smoke = false
 		for _, w in ipairs(self.wheels) do
 			w.wheel_joint:setMotorSpeed(0)
 		end
